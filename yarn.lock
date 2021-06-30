@@ -1020,6 +1020,13 @@
   dependencies:
     "@types/superagent" "*"
 
+"@types/web-push@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.3.1.tgz#0b5a3ab30128d180fcf8e7d4ab2e2bf2413af6f2"
+  integrity sha512-n4XCXwssioxBjSIxsDllP7dqpNgGes1t3mL8wINsUsgadx28FqoHmqLLan1fuX9OGLH6Fz4DcV3ZK+1XEdzXMg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/yargs-parser@*":
   version "20.2.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-20.2.0.tgz#dd3e6699ba3237f0348cd085e4698780204842f9"
