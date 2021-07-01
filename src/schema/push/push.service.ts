@@ -20,6 +20,7 @@ export class PushService {
     const payload = createPushDto
     const subscriptions: Subscription[] = await this.subscriptionModel.find()
 
+    console.log(subscriptions.length)
     const parallelSubscriptionCalls = subscriptions.map((subscription) => {
       return new Promise((resolve, reject) => {
         const pushSubscription = new Subscription({
@@ -51,20 +52,27 @@ export class PushService {
             data: value,
           })
         }).catch((err) => {
-          reject({
-            status: false,
-            endpoint: subscription.endpoint,
-            data: err,
-          })
+          // reject({
+          //   status: false,
+          //   endpoint: subscription.endpoint,
+          //   data: err,
+          // })
+          console.log(err)
         })
-        Promise.all(parallelSubscriptionCalls).then((pushResults) => {
-          console.info(pushResults)
-        })
+
         return {
           data: 'Push triggered',
         }
       })
     })
+    Promise.all(parallelSubscriptionCalls).then((pushResults) => {
+      console.info(pushResults)
+    }).catch(e => {
+      console.log(e)
+    })
+
+    return 'published'
+
   }
 
   findAll() {
