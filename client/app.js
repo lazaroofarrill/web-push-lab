@@ -70,8 +70,8 @@ function saveSubscription(subscription) {
   xmlHttp.open('POST', '/subscribe')
   xmlHttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   xmlHttp.onreadystatechange = function() {
-    if (xmlHttp.readyState != 4) return
-    if (xmlHttp.status != 200 && xmlHttp.status != 304) {
+    if (xmlHttp.readyState !== 4) return
+    if (xmlHttp.status !== 200 && xmlHttp.status !== 304) {
       console.log('HTTP error ' + xmlHttp.status, null)
     } else {
       console.log('User subscribed to server')
