@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { CreatePushDto } from './dto/create-push.dto'
-import { UpdatePushDto } from './dto/update-push.dto'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { SubscribeDocument, Subscription } from '../subscribe/entities/subscribe.entity'
@@ -16,11 +15,23 @@ export class PushService {
   ) {
   }
 
-  async create(createPushDto: CreatePushDto) {
+  async broadcast(createPushDto: CreatePushDto) {
     const payload = createPushDto
     const subscriptions: Subscription[] = await this.subscriptionModel.find()
 
-    console.log(subscriptions.length)
+    this.pushToSubscribers(payload, subscriptions)
+
+    return 'published to all'
+  }
+
+  async push(id: string, createPushDto: CreatePushDto) {
+    const payload = createPushDto
+    const subscriptions: Subscription[] = await this.subscriptionModel.find({ userId: id })
+
+    this.pushToSubscribers(payload, subscriptions)
+  }
+
+  pushToSubscribers(payload: CreatePushDto, subscriptions: Subscription[]) {
     const parallelSubscriptionCalls = subscriptions.map((subscription) => {
       return new Promise((resolve, reject) => {
         const pushSubscription = new Subscription({
@@ -70,24 +81,5 @@ export class PushService {
     }).catch(e => {
       console.log(e)
     })
-
-    return 'published'
-
-  }
-
-  findAll() {
-    return `This action returns all push`
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} push`
-  }
-
-  update(id: number, updatePushDto: UpdatePushDto) {
-    return `This action updates a #${id} push`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} push`
   }
 }

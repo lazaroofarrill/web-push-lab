@@ -1,34 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PushService } from './push.service';
-import { CreatePushDto } from './dto/create-push.dto';
-import { UpdatePushDto } from './dto/update-push.dto';
+import { Body, Controller, Param, Post } from '@nestjs/common'
+import { PushService } from './push.service'
+import { CreatePushDto } from './dto/create-push.dto'
 
 @Controller('push')
 export class PushController {
-  constructor(private readonly pushService: PushService) {}
+  constructor(private readonly pushService: PushService) {
+  }
 
   @Post()
-  create(@Body() createPushDto: CreatePushDto) {
-    return this.pushService.create(createPushDto);
+  broadcast(@Body() createPushDto: CreatePushDto) {
+    return this.pushService.broadcast(createPushDto)
   }
 
-  @Get()
-  findAll() {
-    return this.pushService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pushService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePushDto: UpdatePushDto) {
-    return this.pushService.update(+id, updatePushDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pushService.remove(+id);
+  @Post(':id')
+  push(@Param('id') id, @Body() createPushDto: CreatePushDto) {
+    return this.pushService.push(id, createPushDto)
   }
 }

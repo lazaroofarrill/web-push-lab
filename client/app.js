@@ -41,10 +41,12 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
               applicationServerKey: urlB64ToUint8Array(applicationKey),
             })
               .then(function(subscription) {
-                console.log(subscription)
-                console.log('User is subscribed')
 
-                saveSubscription(subscription)
+                let customSub = JSON.parse(JSON.stringify(subscription))
+                // customSub.userId = 'randomObjectId'
+                console.log('User has been subscribed anew')
+
+                saveSubscription(customSub)
 
                 isSubscribed = true
               })
